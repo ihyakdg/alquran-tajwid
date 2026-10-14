@@ -46,25 +46,76 @@ body {
 }
 /* Pewarnaan tajwid (sumber teks: quran.com API, tag <rule class="...">) */
 .arabic rule.ham_wasl            { color: #9aa0a6; }  /* Hamzah washal */
-.arabic rule.silent              { color: #9aa0a6; }  /* Tidak dibaca */
+.arabic rule.slnt                { color: #9aa0a6; }  /* Tanda tidak dibaca */
 .arabic rule.laam_shamsiyah      { color: #7c8aa0; }  /* Lam syamsiyah */
 .arabic rule.qalaqah             { color: #1a73e8; }  /* Qalqalah */
-.arabic rule.noon_ghunnah        { color: #0b8043; }  /* Ghunnah nun */
-.arabic rule.meem_ghunnah        { color: #0b8043; }  /* Ghunnah mim */
-.arabic rule.idgham_w_ghunnah    { color: #009688; }  /* Idgham bighunnah */
+.arabic rule.ghunnah             { color: #0b8043; }  /* Ghunnah */
+.arabic rule.idgham_ghunnah      { color: #009688; }  /* Idgham bighunnah */
 .arabic rule.idgham_wo_ghunnah   { color: #43a047; }  /* Idgham bilaghunnah */
 .arabic rule.idgham_shafawi      { color: #00897b; }  /* Idgham syafawi */
-.arabic rule.ikhfa               { color: #ef6c00; }  /* Ikhfa */
-.arabic rule.ikhfa_shafawi       { color: #f4511e; }  /* Ikhfa syafawi */
+.arabic rule.ikhafa              { color: #ef6c00; }  /* Ikhfa */
+.arabic rule.ikhafa_shafawi      { color: #f4511e; }  /* Ikhfa syafawi */
 .arabic rule.iqlab               { color: #d81b60; }  /* Iqlab */
 .arabic rule.madda_normal        { color: #c5221f; }  /* Mad thabi'i */
 .arabic rule.madda_permissible   { color: #c5221f; }  /* Mad jaiz */
 .arabic rule.madda_necessary     { color: #b71c1c; }  /* Mad lazim */
-.arabic rule.madda_obligatory    { color: #b71c1c; }  /* Mad wajib */
+.arabic rule.madda_obligatory_mottasel { color: #b71c1c; }  /* Mad wajib muttashil */
+.arabic rule.madda_obligatory_monfasel { color: #c5221f; }  /* Mad jaiz munfashil */
 .arabic rule.idgham_mutajanisayn { color: #6d4c41; }  /* Idgham mutajanisain */
 .arabic rule.idgham_mutaqaribayn { color: #6d4c41; }  /* Idgham mutaqaribain */
-.arabic rule.saktah              { color: #8e24aa; }  /* Saktah */
+/* Varian penamaan lain (cadangan, tak ada salahnya) */
+.arabic rule.silent, .arabic rule.ikhfa, .arabic rule.noon_ghunnah,
+.arabic rule.meem_ghunnah, .arabic rule.idgham_w_ghunnah,
+.arabic rule.madda_obligatory, .arabic rule.saktah { color: inherit; }
+.arabic rule.silent              { color: #9aa0a6; }
+.arabic rule.ikhfa               { color: #ef6c00; }
+.arabic rule.noon_ghunnah, .arabic rule.meem_ghunnah { color: #0b8043; }
+.arabic rule.idgham_w_ghunnah    { color: #009688; }
+.arabic rule.madda_obligatory    { color: #b71c1c; }
+.arabic rule.saktah              { color: #8e24aa; }
 .no-tajwid rule { color: inherit !important; }
+/* ===== Mode Mushaf (tampilan per halaman ala mushaf cetak) ===== */
+.mushaf-top { text-align: center; padding: 28px 16px 4px; }
+.mushaf-top h1 { margin: 8px 0 4px; font-size: 1.7rem; display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.mushaf-page {
+  --mushaf-size: 30px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  outline: 3px double var(--gold);
+  outline-offset: 6px;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding: 34px 38px;
+  margin: 22px 0 10px;
+}
+.mushaf-line {
+  font-size: var(--mushaf-size);
+  text-align: justify;
+  text-align-last: justify;
+  margin: 0;
+  padding: 2px 0;
+}
+.surah-ornament {
+  text-align: center;
+  margin: 10px auto;
+  padding: 10px 18px;
+  max-width: 420px;
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  background: var(--gold-soft);
+  font-family: "Amiri Quran", serif;
+  font-size: 1.6rem;
+  color: var(--brand-dark);
+  position: relative;
+}
+[data-theme="dark"] .surah-ornament { color: var(--brand); }
+.surah-ornament::before, .surah-ornament::after { content: "❖"; color: var(--gold); margin: 0 10px; }
+.bismillah-line { text-align: center; font-size: 1.5rem; margin: 8px 0; }
+.sajdah { color: var(--brand); font-weight: bold; }
+@media (max-width: 640px) {
+  .mushaf-page { padding: 20px 16px; }
+  .mushaf-page { --mushaf-size: 24px; }
+}
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 /* ===== Navbar ===== */

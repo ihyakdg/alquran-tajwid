@@ -15,21 +15,29 @@
 
   const TAJWID = {
     ham_wasl: "Hamzah Washal — dibaca menyambung, tidak dibaca saat mulai dari sini",
+    slnt: "Tanda bulat — huruf tidak dibaca",
     silent: "Huruf yang tidak dibaca",
     laam_shamsiyah: "Lam Syamsiyah — lam tidak dibaca, huruf berikutnya bertasydid",
     qalaqah: "Qalqalah — dibaca memantul",
+    ghunnah: "Ghunnah — nun/mim bertasydid dibaca dengung ±2 harakat",
     noon_ghunnah: "Ghunnah — nun bertasydid dibaca dengung ±2 harakat",
     meem_ghunnah: "Ghunnah — mim bertasydid dibaca dengung ±2 harakat",
+    idgham_ghunnah: "Idgham Bighunnah — dilebur disertai dengung",
     idgham_w_ghunnah: "Idgham Bighunnah — dilebur disertai dengung",
     idgham_wo_ghunnah: "Idgham Bilaghunnah — dilebur tanpa dengung",
     idgham_shafawi: "Idgham Syafawi (Idgham Mimi) — mim dilebur ke mim dengan dengung",
+    ikhafa: "Ikhfa — dibaca samar antara izhar dan idgham, disertai dengung",
     ikhfa: "Ikhfa — dibaca samar antara izhar dan idgham, disertai dengung",
+    ikhafa_shafawi: "Ikhfa Syafawi — mim sukun dibaca samar menghadapi ba",
     ikhfa_shafawi: "Ikhfa Syafawi — mim sukun dibaca samar menghadapi ba",
     iqlab: "Iqlab — nun/tanwin berubah menjadi bunyi mim menghadapi ba",
     madda_normal: "Mad Thabi'i — dibaca panjang 2 harakat",
     madda_permissible: "Mad Jaiz — boleh dibaca 2, 4, atau 5 harakat",
     madda_necessary: "Mad Lazim — dibaca panjang 6 harakat",
     madda_obligatory: "Mad Wajib — dibaca panjang 4–5 harakat",
+    madda_obligatory_mottasel: "Mad Wajib Muttashil — dibaca panjang 4–5 harakat",
+    madda_obligatory_monfasel: "Mad Jaiz Munfashil — boleh dibaca 2, 4, atau 5 harakat",
+    "custom-alef-maksora": "Alif Maksura (bagian dari Mad)",
     idgham_mutajanisayn: "Idgham Mutajanisain — dilebur karena sejenis makhraj",
     idgham_mutaqaribayn: "Idgham Mutaqaribain — dilebur karena berdekatan makhraj",
     saktah: "Saktah — berhenti sejenak tanpa bernapas",
@@ -53,8 +61,8 @@
 
   function attachTooltips(scope) {
     scope.querySelectorAll("rule[class]").forEach((r) => {
-      const name = TAJWID[r.className];
-      if (name) r.title = name;
+      const key = (r.getAttribute("class") || "").split(" ")[0];
+      if (TAJWID[key]) r.title = TAJWID[key];
     });
   }
 

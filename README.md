@@ -8,6 +8,8 @@ transliterasi latin, audio murottal per ayat, dan tafsir. Dibuat dengan HTML + C
 
 ## ✨ Fitur
 
+- 📜 **Mode Mushaf** (`mushaf.html`) — tampilan per halaman (604 hal.) seperti mushaf cetak:
+  teks Utsmani berwarna tajwid, baris & kepala surah sesuai mushaf Madinah, navigasi halaman/juz, penanda halaman
 - 📖 114 surah + pencarian & filter Makkiyah/Madaniyah
 - 🎨 Teks Arab berwarna sesuai hukum tajwid (idgham, ikhfa, iqlab, qalqalah, mad, ghunnah, saktah, dll.)
   - arahkan kursor ke teks berwarna untuk melihat penjelasan hukumnya
@@ -45,12 +47,14 @@ python3 -m http.server 8080
 alquran-tajwid/
 ├── index.html      # Beranda + daftar surah
 ├── surah.html      # Halaman baca per surah (?nomor=1..114)
+├── mushaf.html     # Mode mushaf per halaman (?hal=1..604)
 ├── tajwid.html     # Materi tajwid + legenda warna
 ├── css/style.css   # Seluruh styling + warna tajwid
 └── js/
     ├── shared.js   # Tema gelap/terang
     ├── main.js     # Daftar surah & pencarian
-    └── surah.js    # Logika halaman baca
+    ├── surah.js    # Logika halaman baca
+    └── mushaf.js   # Logika mode mushaf
 ```
 
 ## 🤝 Kontribusi

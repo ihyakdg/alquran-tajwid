@@ -41,16 +41,26 @@
 
   function renderLastRead() {
     const box = document.getElementById("last-read");
+    let html = "";
     try {
       const lr = JSON.parse(localStorage.getItem("qt-lastread") || "null");
-      if (!lr) return;
-      box.innerHTML = `
-        <div class="lastread">
+      if (lr) {
+        html += `
           <span style="font-size:1.6rem">🔖</span>
           <span><strong>Terakhir dibaca:</strong> QS. ${esc(lr.namaLatin)} ayat ${lr.ayat}</span>
-          <a class="btn small" style="margin-inline-start:auto" href="surah.html?nomor=${lr.surah}#ayat-${lr.ayat}">Lanjutkan →</a>
-        </div>`;
+          <a class="btn small" style="margin-inline-start:auto" href="surah.html?nomor=${lr.surah}#ayat-${lr.ayat}">Lanjutkan →</a>`;
+      }
     } catch (_) { /* abaikan */ }
+    try {
+      const mp = parseInt(localStorage.getItem("qt-mushaf-page") || "", 10);
+      if (mp >= 1 && mp <= 604) {
+        html += `
+          <span style="font-size:1.6rem">📜</span>
+          <span><strong>Mushaf:</strong> halaman ${mp} dari 604</span>
+          <a class="btn small" style="margin-inline-start:auto" href="mushaf.html?hal=${mp}">Lanjutkan →</a>`;
+      }
+    } catch (_) { /* abaikan */ }
+    if (html) box.innerHTML = `<div class="lastread" style="flex-wrap:wrap">${html}</div>`;
   }
 
   async function load() {
