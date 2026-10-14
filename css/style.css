@@ -92,6 +92,42 @@ body {
 .tajwid-blok rule.madda_obligatory_mottasel { background: #ef9a9a; color: #7f0000; }
 .tajwid-blok rule.idgham_mutajanisayn, .tajwid-blok rule.idgham_mutaqaribayn { background: #d7ccc8; color: #3e2723; }
 .tajwid-blok rule.saktah { background: #e1bee7; color: #4a148c; }
+/* ===== Mode CETAKAN ala buku mushaf (huruf berwarna + label di atas kata) ===== */
+.tajwid-print rule.ham_wasl, .tajwid-print rule.slnt, .tajwid-print rule.silent { color: #9aa0a6; }
+.tajwid-print rule.laam_shamsiyah { color: #7c8aa0; }
+.tajwid-print rule.qalaqah { color: #1565c0; }
+.tajwid-print rule.ghunnah, .tajwid-print rule.noon_ghunnah, .tajwid-print rule.meem_ghunnah,
+.tajwid-print rule.idgham_ghunnah, .tajwid-print rule.idgham_w_ghunnah,
+.tajwid-print rule.idgham_wo_ghunnah, .tajwid-print rule.idgham_shafawi,
+.tajwid-print rule.iqlab { color: #d81b60; }
+.tajwid-print rule.madda_normal, .tajwid-print rule.madda_permissible,
+.tajwid-print rule.madda_necessary, .tajwid-print rule.madda_obligatory,
+.tajwid-print rule.madda_obligatory_mottasel, .tajwid-print rule.madda_obligatory_monfasel,
+.tajwid-print rule.custom-alef-maksora { color: #d32f2f; }
+.tajwid-print rule.ikhafa, .tajwid-print rule.ikhfa,
+.tajwid-print rule.ikhafa_shafawi, .tajwid-print rule.ikhfa_shafawi { color: #159947; }
+.tajwid-print rule.idgham_mutajanisayn, .tajwid-print rule.idgham_mutaqaribayn { color: #1565c0; }
+.tajwid-print rule.saktah { color: #8e24aa; }
+/* Label hukum mengambang di atas kata (seperti stiker di mushaf cetak) */
+.tajwid-print .mushaf-line, .tajwid-print .ayat .arabic { padding-top: 1.15em; }
+.tajwid-print rule.tagged { position: relative; display: inline-block; }
+.tajwid-print .taj-tag {
+  position: absolute; bottom: 100%; right: 50%; transform: translateX(50%);
+  margin-bottom: 1px; z-index: 2;
+  font-family: "Plus Jakarta Sans", sans-serif; font-size: 11px; font-weight: 800;
+  line-height: 1.5; white-space: nowrap; direction: ltr;
+  color: #fff; border-radius: 7px 7px 0 0; padding: 0 8px;
+  box-shadow: 0 -1px 3px rgba(0,0,0,.2);
+}
+body.lansia .tajwid-print .taj-tag { font-size: 14px; padding: 1px 12px; }
+/* Footer halaman mushaf ala cetakan */
+.mushaf-footer {
+  text-align: center; margin: 18px auto 4px; max-width: 520px;
+  border: 2px solid var(--gold); border-radius: 14px; background: var(--gold-soft);
+  padding: 8px 18px; font-weight: 800; color: var(--brand-dark);
+}
+[data-theme="dark"] .mushaf-footer { color: var(--brand); }
+body.lansia .mushaf-footer { font-size: 1.3rem; }
 /* Nomor ayat hijau ala cetakan (khusus mode mushaf) */
 .mushaf-line .ayah-num { border-color: #0e7a55; background: #0e7a55; color: #fff; }
 /* Label panduan tajwid halaman ini (ala label margin mushaf cetak) */

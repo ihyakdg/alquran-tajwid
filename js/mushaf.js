@@ -166,8 +166,9 @@
         <button class="mini-btn" id="btn-goto">Ke halaman</button>
         <label>📚 <select id="juz">${juzOpts}</select></label>
         <label>🎨 <select id="sel-tajwid">
+          <option value="cetakan">Cetakan (label)</option>
           <option value="huruf">Huruf berwarna</option>
-          <option value="blok">Blok warna (cetakan)</option>
+          <option value="blok">Blok warna</option>
           <option value="mati">Tanpa warna</option>
         </select></label>
         <label class="switch"><input type="checkbox" id="tgl-terjemah" checked /> 📖 Latin & terjemah</label>
@@ -188,6 +189,7 @@
     try { localStorage.setItem("qt-tajwid-mode", mode); } catch (_) {}
     showTajwid = mode !== "mati";
     content.classList.toggle("tajwid-blok", mode === "blok");
+    content.classList.toggle("tajwid-print", mode === "cetakan");
     if (currentVerses.length) refreshText(currentVerses);
   }
 
@@ -274,13 +276,14 @@
         </div>
         ${renderControls(juzOf(hal))}
         <div class="mushaf-page" id="mushaf-page">${linesHtml}</div>
+        <div class="mushaf-footer">❖ Halaman ${hal} • 📚 ${juzLabel} ❖</div>
         <div id="page-guide"></div>
         <div id="page-terjemah"></div>`;
 
       attachTooltips();
       renderGuide();
 
-      const savedMode = (() => { try { return localStorage.getItem("qt-tajwid-mode") || (window.isLansia && window.isLansia() ? "blok" : "huruf"); } catch (_) { return "huruf"; } })();
+      const savedMode = (() => { try { return localStorage.getItem("qt-tajwid-mode") || "cetakan"; } catch (_) { return "cetakan"; } })();
       document.getElementById("sel-tajwid").value = savedMode;
       applyTajwidMode(savedMode);
       document.getElementById("sel-tajwid").addEventListener("change", (e) => applyTajwidMode(e.target.value));
@@ -332,6 +335,9 @@
       if (texts[i]) el.innerHTML = texts[i].parts.join(" ");
     });
     attachTooltips();
+    if (content.classList.contains("tajwid-print") && window.decoratePrintTags) {
+      window.decoratePrintTags(page);
+    }
   }
 
   load();

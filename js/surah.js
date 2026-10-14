@@ -78,12 +78,14 @@
     try { localStorage.setItem("qt-tajwid-mode", mode); } catch (_) {}
     showTajwid = mode !== "mati";
     content.classList.toggle("tajwid-blok", mode === "blok");
+    content.classList.toggle("tajwid-print", mode === "cetakan");
     document.querySelectorAll("[data-arab]").forEach((p) => {
       const n = +p.dataset.arab;
       p.innerHTML = showTajwid ? buildArabic(n)
         : esc(ayatList.find((x) => x.nomorAyat === n).teksArab);
     });
     if (showTajwid) attachTooltips(content);
+    if (mode === "cetakan" && window.decoratePrintTags) window.decoratePrintTags(content);
   }
 
   function renderAyat(a, showTajwid) {
@@ -115,8 +117,9 @@
         <select id="qari">${opts}</select>
         <label>🎨 Gaya tajwid</label>
         <select id="sel-tajwid">
+          <option value="cetakan">Cetakan (label)</option>
           <option value="huruf">Huruf berwarna</option>
-          <option value="blok">Blok warna (cetakan)</option>
+          <option value="blok">Blok warna</option>
           <option value="mati">Tanpa warna</option>
         </select>
         <label class="switch"><input type="checkbox" id="tgl-auto" /> ⏭️ Otomatis ayat berikutnya</label>
@@ -244,7 +247,7 @@
       attachTooltips(content);
 
       // Interaksi kontrol
-      const savedMode0 = (() => { try { return localStorage.getItem("qt-tajwid-mode") || (window.isLansia && window.isLansia() ? "blok" : "huruf"); } catch (_) { return "huruf"; } })();
+      const savedMode0 = (() => { try { return localStorage.getItem("qt-tajwid-mode") || "cetakan"; } catch (_) { return "cetakan"; } })();
       document.getElementById("sel-tajwid").value = savedMode0;
       applyTajwidMode(savedMode0);
       document.getElementById("sel-tajwid").addEventListener("change", (e) => applyTajwidMode(e.target.value));
