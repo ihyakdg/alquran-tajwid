@@ -74,6 +74,37 @@ body {
 .arabic rule.madda_obligatory    { color: #b71c1c; }
 .arabic rule.saktah              { color: #8e24aa; }
 .no-tajwid rule { color: inherit !important; }
+/* ===== Mode BLOK WARNA ala mushaf cetak (highlight, bukan huruf berwarna) ===== */
+.tajwid-blok rule[class] { border-radius: .25em; padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.tajwid-blok rule.ham_wasl, .tajwid-blok rule.slnt, .tajwid-blok rule.silent { background: #e8eaed; color: #5f6368; }
+.tajwid-blok rule.laam_shamsiyah { background: #cfd8dc; color: #263238; }
+.tajwid-blok rule.qalaqah { background: #bbdefb; color: #0d47a1; }
+.tajwid-blok rule.ghunnah, .tajwid-blok rule.noon_ghunnah, .tajwid-blok rule.meem_ghunnah { background: #a5d6a7; color: #1b5e20; }
+.tajwid-blok rule.idgham_ghunnah, .tajwid-blok rule.idgham_w_ghunnah { background: #b2dfdb; color: #004d40; }
+.tajwid-blok rule.idgham_wo_ghunnah { background: #dcedc8; color: #33691e; }
+.tajwid-blok rule.idgham_shafawi { background: #80cbc4; color: #004d40; }
+.tajwid-blok rule.ikhafa, .tajwid-blok rule.ikhfa { background: #ffe0b2; color: #bf360c; }
+.tajwid-blok rule.ikhafa_shafawi, .tajwid-blok rule.ikhfa_shafawi { background: #ffccbc; color: #bf360c; }
+.tajwid-blok rule.iqlab { background: #f8bbd0; color: #880e4f; }
+.tajwid-blok rule.madda_normal, .tajwid-blok rule.madda_permissible,
+.tajwid-blok rule.madda_obligatory_monfasel, .tajwid-blok rule.custom-alef-maksora { background: #ffcdd2; color: #b71c1c; }
+.tajwid-blok rule.madda_necessary, .tajwid-blok rule.madda_obligatory,
+.tajwid-blok rule.madda_obligatory_mottasel { background: #ef9a9a; color: #7f0000; }
+.tajwid-blok rule.idgham_mutajanisayn, .tajwid-blok rule.idgham_mutaqaribayn { background: #d7ccc8; color: #3e2723; }
+.tajwid-blok rule.saktah { background: #e1bee7; color: #4a148c; }
+/* Nomor ayat hijau ala cetakan (khusus mode mushaf) */
+.mushaf-line .ayah-num { border-color: #0e7a55; background: #0e7a55; color: #fff; }
+/* Label panduan tajwid halaman ini (ala label margin mushaf cetak) */
+.guide-box { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; margin: 16px 0; box-shadow: var(--shadow); }
+.guide-box h3 { margin: 0 0 10px; font-size: 1rem; }
+.guide-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.gchip { border-radius: 8px; padding: 5px 12px; font-size: .82rem; font-weight: 800; cursor: default; border: 1px solid rgba(0,0,0,.12); }
+/* Latin & terjemah per ayat di bawah halaman mushaf */
+.tj-list { display: grid; gap: 10px; margin: 6px 0 10px; }
+.tj-row { display: flex; gap: 12px; align-items: flex-start; background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.tj-row .ayat-badge { flex-shrink: 0; margin-top: 2px; }
+.tj-row .latin { margin: 0 0 4px; }
+.tj-row .terjemah { margin: 0; font-size: .95rem; }
 /* ===== Mode Mushaf (tampilan per halaman ala mushaf cetak) ===== */
 .mushaf-top { text-align: center; padding: 28px 16px 4px; }
 .mushaf-top h1 { margin: 8px 0 4px; font-size: 1.7rem; display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
@@ -116,6 +147,32 @@ body {
   .mushaf-page { padding: 20px 16px; }
   .mushaf-page { --mushaf-size: 24px; }
 }
+/* Fokus keyboard yang jelas (navigasi remot TV / D-pad) */
+:focus-visible { outline: 4px solid var(--gold); outline-offset: 3px; }
+/* ===== Mode Lansia 👴 — huruf jumbo & target sentuh besar untuk TV/STB ===== */
+body.lansia { font-size: 1.2rem; }
+body.lansia .wrap { max-width: 1280px; }
+body.lansia .mushaf-page { --mushaf-size: 46px; padding: 44px 48px; }
+body.lansia .mushaf-line { line-height: 2.4; }
+body.lansia .bismillah-line { font-size: 2.1rem; }
+body.lansia .surah-ornament { font-size: 2.3rem; max-width: 560px; }
+body.lansia .ayat .arabic { font-size: var(--arab-size, 2.6rem); }
+body.lansia .btn { font-size: 1.3rem; padding: 16px 28px; }
+body.lansia .btn.small { font-size: 1.15rem; padding: 12px 20px; }
+body.lansia .mini-btn { font-size: 1.1rem; padding: 12px 20px; }
+body.lansia .controls { font-size: 1.15rem; gap: 14px; padding: 16px 18px; }
+body.lansia .controls select { font-size: 1.15rem; padding: 12px 14px; }
+body.lansia .tj-row .terjemah { font-size: 1.2rem; }
+body.lansia .tj-row .latin { font-size: 1.12rem; }
+body.lansia .ayat-badge { font-size: 1.1rem; padding: 6px 16px; }
+body.lansia .mushaf-top h1 { font-size: 2.3rem; }
+body.lansia .surah-nav .btn { font-size: 1.5rem; padding: 20px; }
+body.lansia .gchip { font-size: 1.05rem; padding: 9px 18px; }
+body.lansia .guide-box h3 { font-size: 1.2rem; }
+body.lansia .nav-links a { font-size: 1.05rem; padding: 10px 16px; }
+body.lansia .hero h1 { font-size: 2.2rem; }
+body.lansia .surah-card h3 { font-size: 1.25rem; }
+body.lansia .surah-card p { font-size: 1.02rem; }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 /* ===== Navbar ===== */

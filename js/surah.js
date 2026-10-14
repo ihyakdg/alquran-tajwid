@@ -66,10 +66,24 @@
     });
   }
 
+  let showTajwid = true;
+
   function buildArabic(nomorAyat) {
     if (tajwidByAyat[nomorAyat]) return tajwidByAyat[nomorAyat];
     const a = ayatList.find((x) => x.nomorAyat === nomorAyat);
     return esc(a ? a.teksArab : "");
+  }
+
+  function applyTajwidMode(mode) {
+    try { localStorage.setItem("qt-tajwid-mode", mode); } catch (_) {}
+    showTajwid = mode !== "mati";
+    content.classList.toggle("tajwid-blok", mode === "blok");
+    document.querySelectorAll("[data-arab]").forEach((p) => {
+      const n = +p.dataset.arab;
+      p.innerHTML = showTajwid ? buildArabic(n)
+        : esc(ayatList.find((x) => x.nomorAyat === n).teksArab);
+    });
+    if (showTajwid) attachTooltips(content);
   }
 
   function renderAyat(a, showTajwid) {
@@ -99,7 +113,12 @@
       <div class="controls">
         <label>🎙️ Qari</label>
         <select id="qari">${opts}</select>
-        <label class="switch"><input type="checkbox" id="tgl-tajwid" checked /> 🎨 Warna tajwid</label>
+        <label>🎨 Gaya tajwid</label>
+        <select id="sel-tajwid">
+          <option value="huruf">Huruf berwarna</option>
+          <option value="blok">Blok warna (cetakan)</option>
+          <option value="mati">Tanpa warna</option>
+        </select>
         <label class="switch"><input type="checkbox" id="tgl-auto" /> ⏭️ Otomatis ayat berikutnya</label>
         <label>🔠 Ukuran <input type="range" id="font-size" min="24" max="52" value="32" /></label>
         <button class="btn small" id="btn-full">▶️ Putar 1 Surah Penuh</button>
@@ -225,14 +244,10 @@
       attachTooltips(content);
 
       // Interaksi kontrol
-      document.getElementById("tgl-tajwid").addEventListener("change", (e) => {
-        const on = e.target.checked;
-        document.querySelectorAll("[data-arab]").forEach((p) => {
-          p.innerHTML = on ? buildArabic(+p.dataset.arab)
-            : esc(ayatList.find((x) => x.nomorAyat === +p.dataset.arab).teksArab);
-        });
-        if (on) attachTooltips(content);
-      });
+      const savedMode0 = (() => { try { return localStorage.getItem("qt-tajwid-mode") || (window.isLansia && window.isLansia() ? "blok" : "huruf"); } catch (_) { return "huruf"; } })();
+      document.getElementById("sel-tajwid").value = savedMode0;
+      applyTajwidMode(savedMode0);
+      document.getElementById("sel-tajwid").addEventListener("change", (e) => applyTajwidMode(e.target.value));
       document.getElementById("tgl-auto").addEventListener("change", (e) => { autoNext = e.target.checked; });
       document.getElementById("font-size").addEventListener("input", (e) => {
         document.documentElement.style.setProperty("--arab-size", e.target.value + "px");

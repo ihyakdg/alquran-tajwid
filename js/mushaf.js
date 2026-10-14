@@ -43,8 +43,33 @@
     idgham_mutaqaribayn: "Idgham Mutaqaribain — dilebur (berdekatan makhraj)",
   };
 
+  // Warna blok & label ringkas per hukum (ala label margin mushaf cetak)
+  const GUIDE = {
+    madda_normal: ["Mad Thabi'i", "#ffcdd2", "#b71c1c"],
+    madda_permissible: ["Mad Jaiz", "#ffcdd2", "#b71c1c"],
+    madda_obligatory_monfasel: ["Mad Jaiz Munfashil", "#ffcdd2", "#b71c1c"],
+    "custom-alef-maksora": ["Alif Maksura", "#ffcdd2", "#b71c1c"],
+    madda_necessary: ["Mad Lazim", "#ef9a9a", "#7f0000"],
+    madda_obligatory_mottasel: ["Mad Wajib", "#ef9a9a", "#7f0000"],
+    ghunnah: ["Ghunnah", "#a5d6a7", "#1b5e20"],
+    idgham_ghunnah: ["Idgham Bighunnah", "#b2dfdb", "#004d40"],
+    idgham_wo_ghunnah: ["Idgham Bilaghunnah", "#dcedc8", "#33691e"],
+    idgham_shafawi: ["Idgham Syafawi", "#80cbc4", "#004d40"],
+    ikhafa: ["Ikhfa", "#ffe0b2", "#bf360c"],
+    ikhafa_shafawi: ["Ikhfa Syafawi", "#ffccbc", "#bf360c"],
+    iqlab: ["Iqlab", "#f8bbd0", "#880e4f"],
+    qalaqah: ["Qalqalah", "#bbdefb", "#0d47a1"],
+    laam_shamsiyah: ["Lam Syamsiyah", "#cfd8dc", "#263238"],
+    ham_wasl: ["Hamzah Washal", "#e8eaed", "#5f6368"],
+    slnt: ["Tidak dibaca", "#e8eaed", "#5f6368"],
+    idgham_mutajanisayn: ["Idgham Mutajanisain", "#d7ccc8", "#3e2723"],
+    idgham_mutaqaribayn: ["Idgham Mutaqaribain", "#d7ccc8", "#3e2723"],
+  };
+
   let showTajwid = true;
+  let currentVerses = [];
   let surahNames = {}; // nomor -> nama Arab
+  let chapCache = {}; // nomor surah -> array ayat (latin+terjemah)
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({
@@ -128,10 +153,19 @@
       `<option value="${JUZ_START[j]}"${+j === juz ? " selected" : ""}>Juz ${j}</option>`).join("");
     return `
       <div class="controls">
-        <label>📄 Hal <input id="goto" type="number" min="1" max="604" value="${hal}" style="width:76px;border:1px solid var(--line);background:var(--bg-card);color:var(--ink);border-radius:10px;padding:8px 10px;font-family:inherit" /> <span style="color:var(--muted)">/ 604</span></label>
+        <label>📄 Hal
+          <button class="mini-btn" id="pg-minus" title="Halaman sebelumnya">−</button>
+          <input id="goto" type="number" min="1" max="604" value="${hal}" style="width:76px;border:1px solid var(--line);background:var(--bg-card);color:var(--ink);border-radius:10px;padding:8px 10px;font-family:inherit" />
+          <button class="mini-btn" id="pg-plus" title="Halaman berikutnya">+</button>
+          <span style="color:var(--muted)">/ 604</span></label>
         <button class="mini-btn" id="btn-goto">Ke halaman</button>
         <label>📚 <select id="juz">${juzOpts}</select></label>
-        <label class="switch"><input type="checkbox" id="tgl-tajwid" checked /> 🎨 Tajwid</label>
+        <label>🎨 <select id="sel-tajwid">
+          <option value="huruf">Huruf berwarna</option>
+          <option value="blok">Blok warna (cetakan)</option>
+          <option value="mati">Tanpa warna</option>
+        </select></label>
+        <label class="switch"><input type="checkbox" id="tgl-terjemah" checked /> 📖 Latin & terjemah</label>
         <label>🔠 <input type="range" id="font-size" min="20" max="44" value="30" /></label>
         <button class="mini-btn" id="btn-mark">🔖 Tandai halaman ini</button>
         <a class="btn small ghost" href="tajwid.html">🎨 Legenda</a>
@@ -145,6 +179,56 @@
     });
   }
 
+  function applyTajwidMode(mode) {
+    try { localStorage.setItem("qt-tajwid-mode", mode); } catch (_) {}
+    showTajwid = mode !== "mati";
+    content.classList.toggle("tajwid-blok", mode === "blok");
+    if (currentVerses.length) refreshText(currentVerses);
+  }
+
+  function renderGuide() {
+    const seen = [];
+    content.querySelectorAll("#mushaf-page rule[class]").forEach((r) => {
+      const key = (r.getAttribute("class") || "").split(" ")[0];
+      if (GUIDE[key] && !seen.includes(key)) seen.push(key);
+    });
+    if (!seen.length) return;
+    document.getElementById("page-guide").innerHTML = `
+      <div class="guide-box">
+        <h3>🏷️ Panduan tajwid di halaman ini</h3>
+        <div class="guide-chips">${seen.map((k) =>
+          `<span class="gchip" title="${esc(TAJWID[k] || GUIDE[k][0])}" style="background:${GUIDE[k][1]};color:${GUIDE[k][2]}">${esc(GUIDE[k][0])}</span>`
+        ).join("")}</div>
+      </div>`;
+  }
+
+  async function loadTerjemah(verses) {
+    const box = document.getElementById("page-terjemah");
+    box.innerHTML = `<div class="loading"><div class="spinner"></div>Memuat latin & terjemah…</div>`;
+    try {
+      const chapters = [...new Set(verses.map((v) => +v.verse_key.split(":")[0]))];
+      await Promise.all(chapters.map(async (ch) => {
+        if (!chapCache[ch]) {
+          const res = await fetch("https://equran.id/api/v2/surat/" + ch);
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          chapCache[ch] = (await res.json()).data.ayat;
+        }
+      }));
+      box.innerHTML = `
+        <h2 class="section-title" style="font-size:1.15rem">📖 Latin & Terjemah halaman ${hal}</h2>
+        <div class="tj-list">${verses.map((v) => {
+          const [ch, vs] = v.verse_key.split(":").map(Number);
+          const a = (chapCache[ch] || []).find((x) => x.nomorAyat === vs);
+          if (!a) return "";
+          return `<div class="tj-row">
+            <span class="ayat-badge">${v.verse_key}</span>
+            <div><p class="latin">${esc(a.teksLatin)}</p><p class="terjemah">${esc(a.teksIndonesia)}</p></div>
+          </div>`;
+        }).join("")}</div>`;
+    } catch (e) {
+      box.innerHTML = `<div class="error">❌ Gagal memuat terjemah.<br><small>${esc(e.message)}</small></div>`;
+    }
+  }
   async function load() {
     try {
       const [names, verses] = await Promise.all([
@@ -160,6 +244,7 @@
       ]);
       surahNames = names;
       if (!verses.length) throw new Error("Halaman kosong");
+      currentVerses = verses;
 
       document.title = "Mushaf hal. " + hal + " — Al-Qur'an Bertajwid";
 
@@ -183,20 +268,39 @@
           <p class="section-sub">${esc(surahRange)} • ${esc(first.verse_key)} – ${esc(last.verse_key)}</p>
         </div>
         ${renderControls(juzOf(hal))}
-        <div class="mushaf-page" id="mushaf-page">${linesHtml}</div>`;
+        <div class="mushaf-page" id="mushaf-page">${linesHtml}</div>
+        <div id="page-guide"></div>
+        <div id="page-terjemah"></div>`;
 
       attachTooltips();
+      renderGuide();
 
-      document.getElementById("tgl-tajwid").addEventListener("change", (e) => {
-        showTajwid = e.target.checked;
-        refreshText(verses);
+      const savedMode = (() => { try { return localStorage.getItem("qt-tajwid-mode") || (window.isLansia && window.isLansia() ? "blok" : "huruf"); } catch (_) { return "huruf"; } })();
+      document.getElementById("sel-tajwid").value = savedMode;
+      applyTajwidMode(savedMode);
+      document.getElementById("sel-tajwid").addEventListener("change", (e) => applyTajwidMode(e.target.value));
+      document.getElementById("tgl-terjemah").addEventListener("change", (e) => {
+        document.getElementById("page-terjemah").style.display = e.target.checked ? "" : "none";
       });
+      loadTerjemah(verses);
       document.getElementById("font-size").addEventListener("input", (e) => {
         document.getElementById("mushaf-page").style.setProperty("--mushaf-size", e.target.value + "px");
       });
       document.getElementById("btn-goto").addEventListener("click", () => {
         const v = Math.min(604, Math.max(1, +document.getElementById("goto").value || 1));
         location.href = "mushaf.html?hal=" + v;
+      });
+      document.getElementById("pg-minus").addEventListener("click", () => {
+        if (hal > 1) location.href = "mushaf.html?hal=" + (hal - 1);
+      });
+      document.getElementById("pg-plus").addEventListener("click", () => {
+        if (hal < 604) location.href = "mushaf.html?hal=" + (hal + 1);
+      });
+      // Tombol panah remot TV (D-pad) untuk ganti halaman
+      document.addEventListener("keydown", (e) => {
+        if (e.target && /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
+        if (e.key === "ArrowRight" && hal < 604) location.href = "mushaf.html?hal=" + (hal + 1);
+        else if (e.key === "ArrowLeft" && hal > 1) location.href = "mushaf.html?hal=" + (hal - 1);
       });
       document.getElementById("juz").addEventListener("change", (e) => {
         location.href = "mushaf.html?hal=" + e.target.value;

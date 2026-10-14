@@ -15,6 +15,25 @@
       el.textContent = root.getAttribute("data-theme") === "dark" ? "☀️" : "🌙";
     });
   }
+  // Mode Lansia 👴: huruf jumbo untuk TV/STB & orang tua.
+  // Aktif via tombol, tersimpan di browser, atau paksa via ?lansia=1
+  function applyLansia(on) {
+    document.body.classList.toggle("lansia", on);
+    try { localStorage.setItem("qt-lansia", on ? "1" : "0"); } catch (_) {}
+  }
+  window.toggleLansia = function () {
+    applyLansia(!document.body.classList.contains("lansia"));
+  };
+  window.isLansia = function () {
+    return document.body.classList.contains("lansia") ||
+      new URLSearchParams(location.search).has("lansia");
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    let on = false;
+    try { on = localStorage.getItem("qt-lansia") === "1"; } catch (_) {}
+    if (new URLSearchParams(location.search).has("lansia")) on = true;
+    applyLansia(on);
+  });
   document.addEventListener("DOMContentLoaded", () => {
     syncIcon();
     document.querySelectorAll("[data-year]").forEach((el) => {
