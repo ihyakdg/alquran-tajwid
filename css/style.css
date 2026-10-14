@@ -224,10 +224,8 @@ body.lansia .ayat { scroll-margin-top: 20px; }
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 /* ===== Navbar ===== */
 .nav {
-  position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
+  background: var(--bg);
 }
 .nav-inner { display: flex; align-items: center; gap: 16px; height: 64px; }
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
@@ -317,10 +315,8 @@ a.card:hover { transform: translateY(-3px); border-color: var(--brand); }
   padding: 14px 18px; text-align: left;
 }
 .controls {
-  position: sticky; top: 64px; z-index: 40;
   display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
-  backdrop-filter: blur(10px);
+  background: var(--bg-soft);
   border: 1px solid var(--line); border-radius: var(--radius);
   padding: 12px 14px; margin: 20px 0;
 }
@@ -335,7 +331,7 @@ a.card:hover { transform: translateY(-3px); border-color: var(--brand); }
 .ayat {
   background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 22px 24px; margin: 16px 0; box-shadow: var(--shadow);
-  scroll-margin-top: 150px;
+  scroll-margin-top: 20px;
 }
 .ayat.flash { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
 .ayat-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
