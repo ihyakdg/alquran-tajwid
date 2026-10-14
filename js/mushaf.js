@@ -9,6 +9,11 @@
     } catch (_) { hal = 1; }
   }
   hal = Math.min(604, Math.max(1, hal));
+  // Pertahankan ?lansia=1 di semua link pindah halaman (penting untuk STB/TV)
+  const LANSIA_Q = new URLSearchParams(location.search).has("lansia") ? "&lansia=1" : "";
+  function pageUrl(p) {
+    return "mushaf.html?hal=" + Math.min(604, Math.max(1, p)) + LANSIA_Q;
+  }
 
   const content = document.getElementById("content");
   const navBox = document.getElementById("page-nav");
@@ -288,22 +293,22 @@
       });
       document.getElementById("btn-goto").addEventListener("click", () => {
         const v = Math.min(604, Math.max(1, +document.getElementById("goto").value || 1));
-        location.href = "mushaf.html?hal=" + v;
+        location.href = pageUrl(v);
       });
       document.getElementById("pg-minus").addEventListener("click", () => {
-        if (hal > 1) location.href = "mushaf.html?hal=" + (hal - 1);
+        if (hal > 1) location.href = pageUrl(hal - 1);
       });
       document.getElementById("pg-plus").addEventListener("click", () => {
-        if (hal < 604) location.href = "mushaf.html?hal=" + (hal + 1);
+        if (hal < 604) location.href = pageUrl(hal + 1);
       });
-      // Tombol panah remot TV (D-pad) untuk ganti halaman
+      // Tombol remot TV: D-pad kiri/kanan + CH-/CH+ (PageUp/PageDown) untuk ganti halaman
       document.addEventListener("keydown", (e) => {
         if (e.target && /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
-        if (e.key === "ArrowRight" && hal < 604) location.href = "mushaf.html?hal=" + (hal + 1);
-        else if (e.key === "ArrowLeft" && hal > 1) location.href = "mushaf.html?hal=" + (hal - 1);
+        if ((e.key === "ArrowRight" || e.key === "PageDown") && hal < 604) location.href = pageUrl(hal + 1);
+        else if ((e.key === "ArrowLeft" || e.key === "PageUp") && hal > 1) location.href = pageUrl(hal - 1);
       });
       document.getElementById("juz").addEventListener("change", (e) => {
-        location.href = "mushaf.html?hal=" + e.target.value;
+        location.href = pageUrl(+e.target.value);
       });
       document.getElementById("btn-mark").addEventListener("click", () => {
         localStorage.setItem("qt-mushaf-page", String(hal));
@@ -312,8 +317,8 @@
 
       navBox.style.display = "flex";
       navBox.innerHTML =
-        (hal > 1 ? `<a class="btn ghost" href="mushaf.html?hal=${hal - 1}">← Hal. ${hal - 1}</a>` : `<span></span>`) +
-        (hal < 604 ? `<a class="btn ghost" style="text-align:right" href="mushaf.html?hal=${hal + 1}">Hal. ${hal + 1} →</a>` : `<span></span>`);
+        (hal > 1 ? `<a class="btn ghost" href="${pageUrl(hal - 1)}">← Hal. ${hal - 1}</a>` : `<span></span>`) +
+        (hal < 604 ? `<a class="btn ghost" style="text-align:right" href="${pageUrl(hal + 1)}">Hal. ${hal + 1} →</a>` : `<span></span>`);
     } catch (e) {
       content.innerHTML = `<div class="error">❌ Gagal memuat halaman mushaf. Periksa koneksi lalu muat ulang.<br><small>${esc(e.message)}</small></div>`;
     }

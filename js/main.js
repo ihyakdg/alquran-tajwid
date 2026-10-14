@@ -57,7 +57,7 @@
         html += `
           <span style="font-size:1.6rem">📜</span>
           <span><strong>Mushaf:</strong> halaman ${mp} dari 604</span>
-          <a class="btn small" style="margin-inline-start:auto" href="mushaf.html?hal=${mp}">Lanjutkan →</a>`;
+          <a class="btn small" style="margin-inline-start:auto" href="mushaf.html?hal=${mp}${document.body.classList.contains("lansia") ? "&lansia=1" : ""}">Lanjutkan →</a>`;
       }
     } catch (_) { /* abaikan */ }
     if (html) box.innerHTML = `<div class="lastread" style="flex-wrap:wrap">${html}</div>`;
