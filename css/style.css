@@ -136,6 +136,9 @@ body.lansia .tajwid-print .mushaf-line { padding-top: .75em; line-height: 1.7; }
 }
 [data-theme="dark"] .mushaf-footer { color: var(--brand); }
 body.lansia .mushaf-footer { font-size: 1.3rem; }
+/* Tanda waqaf ala mushaf cetak: cokelat keemasan, tegas, ada penjelasan saat disentuh */
+.wq { color: #8a5a00; font-weight: 700; font-size: 1.12em; line-height: 1; cursor: help; }
+.wq-rub { color: #0e7a55; font-size: 1.25em; }
 /* Nomor ayat hijau ala cetakan (khusus mode mushaf) */
 .mushaf-line .ayah-num { border-color: #0e7a55; background: #0e7a55; color: #fff; }
 /* Label panduan tajwid halaman ini (ala label margin mushaf cetak) */

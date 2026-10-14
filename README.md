@@ -12,6 +12,7 @@ transliterasi latin, audio murottal per ayat, dan tafsir. Dibuat dengan HTML + C
   teks Utsmani, baris & kepala surah sesuai mushaf Madinah, navigasi halaman/juz, penanda halaman
 - 🏷️ **4 gaya tajwid**: Cetakan (label hukum ala buku — bawaan), Huruf berwarna, Blok warna, Tanpa warna
 - 🏷️ Label panduan tajwid per halaman + latin & terjemah per ayat
+- 🛑 Tanda waqaf (ۚ ۖ ۗ ۘ ۙ ۛ ۜ ۞) bergaya cetakan + penjelasan + legenda
 - 👴 Mode Lansia untuk TV/STB: huruf jumbo, navigasi remot (D-pad/CH±), fokus jelas
 - 📖 114 surah + pencarian & filter Makkiyah/Madaniyah
 - 🎨 Teks Arab berwarna sesuai hukum tajwid (idgham, ikhfa, iqlab, qalqalah, mad, ghunnah, saktah, dll.)

@@ -42,7 +42,26 @@
     iqlab: ["Iqlab", "#d81b60"],
     qalaqah: ["Qalqalah", "#1a237e"],
   };
-  // Sisipkan <span class="taj-tag"> di atas tiap KATA berhukum (maks. 1 label per kata)
+  // Tanda waqaf [label, penjelasan] — sesuai mushaf cetak (صلى = lanjut utama, قلى = berhenti utama, ...)
+  window.WAQAF_INFO = {
+    "ۚ": ["Waqaf Jaiz", "Boleh berhenti atau lanjut"],
+    "ۖ": ["Washal Aula (صلى)", "Lanjut lebih utama"],
+    "ۗ": ["Waqaf Aula (قلى)", "Berhenti lebih utama"],
+    "ۘ": ["Waqaf Lazim (م)", "Harus berhenti"],
+    "ۙ": ["Waqaf Mamnu' (لا)", "Jangan berhenti, lanjutkan"],
+    "ۛ": ["Waqaf Mu'anaqah", "Berhenti di salah satu titik saja"],
+    "ۜ": ["Saktah", "Berhenti sejenak tanpa bernapas"],
+    "۞": ["Awal Rubu'", "Tanda seperempat juz (hizb)"],
+    "ۭ": ["Tanda Iqlab", "Nun dibaca menjadi mim"],
+  };
+  // Bungkus tanda waqaf dengan span bergaya + tooltip
+  window.wrapWaqaf = function (html) {
+    return String(html).replace(/[ۚۖۗۘۙۛۜ۞ۭ]/g, (ch) => {
+      const info = window.WAQAF_INFO[ch] || ["Tanda Waqaf", "Tanda berhenti"];
+      const cls = ch === "۞" ? "wq wq-rub" : "wq";
+      return `<span class="${cls}" title="${info[0]} — ${info[1]}">${ch}</span>`;
+    });
+  };
   window.decoratePrintTags = function (scope) {
     scope.querySelectorAll(".ww").forEach((w) => {
       if (w.dataset.tag) return;

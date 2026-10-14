@@ -86,7 +86,8 @@
     return String(n).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[+d]);
   }
   function stripTags(html) {
-    return html.replace(/<\/?rule[^>]*>/g, "");
+    return html.replace(/<span class="wq"[^>]*>(.*?)<\/span>|<span class="wq-rub"[^>]*>(.*?)<\/span>/g, "$1$2")
+      .replace(/<\/?rule[^>]*>/g, "");
   }
   function juzOf(page) {
     for (let j = 30; j >= 1; j--) if (page >= JUZ_START[j]) return j;
@@ -115,7 +116,8 @@
       return `<span class="ayah-num" title="Ayat ${verseNumber}">${toAr(verseNumber)}</span>`;
     }
     const t = w.text_uthmani_tajweed || w.text || "";
-    return `<span class="ww">${showTajwid ? t : esc(stripTags(t))}</span>`;
+    const html = showTajwid ? t : esc(stripTags(t));
+    return `<span class="ww">${window.wrapWaqaf ? window.wrapWaqaf(html) : html}</span>`;
   }
 
   function buildLines(verses) {

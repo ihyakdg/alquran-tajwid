@@ -68,10 +68,14 @@
 
   let showTajwid = true;
 
+  function wq(html) {
+    return window.wrapWaqaf ? window.wrapWaqaf(html) : html;
+  }
+
   function buildArabic(nomorAyat) {
-    if (tajwidByAyat[nomorAyat]) return tajwidByAyat[nomorAyat];
+    if (tajwidByAyat[nomorAyat]) return wq(tajwidByAyat[nomorAyat]);
     const a = ayatList.find((x) => x.nomorAyat === nomorAyat);
-    return esc(a ? a.teksArab : "");
+    return wq(esc(a ? a.teksArab : ""));
   }
 
   function applyTajwidMode(mode) {
@@ -82,7 +86,7 @@
     document.querySelectorAll("[data-arab]").forEach((p) => {
       const n = +p.dataset.arab;
       p.innerHTML = showTajwid ? buildArabic(n)
-        : esc(ayatList.find((x) => x.nomorAyat === n).teksArab);
+        : wq(esc(ayatList.find((x) => x.nomorAyat === n).teksArab));
     });
     if (showTajwid) attachTooltips(content);
     if (mode === "cetakan" && window.decoratePrintTags) window.decoratePrintTags(content);
@@ -99,7 +103,7 @@
             <button class="mini-btn" data-act="mark" data-ayat="${a.nomorAyat}" title="Tandai terakhir dibaca">🔖</button>
           </span>
         </div>
-        <p class="arabic" data-arab="${a.nomorAyat}">${showTajwid ? buildArabic(a.nomorAyat) : esc(a.teksArab)}</p>
+        <p class="arabic" data-arab="${a.nomorAyat}">${showTajwid ? buildArabic(a.nomorAyat) : wq(esc(a.teksArab))}</p>
         <p class="latin">${esc(a.teksLatin)}</p>
         <p class="terjemah">${esc(a.teksIndonesia)}</p>
         <div class="tafsir-box" id="tafsir-${a.nomorAyat}"></div>
