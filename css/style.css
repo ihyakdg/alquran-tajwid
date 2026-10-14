@@ -217,6 +217,9 @@ body.lansia .nav-links a { font-size: 1.05rem; padding: 10px 16px; }
 body.lansia .hero h1 { font-size: 2.2rem; }
 body.lansia .surah-card h3 { font-size: 1.25rem; }
 body.lansia .surah-card p { font-size: 1.02rem; }
+/* Mode Lansia: tanpa elemen menempel saat scroll (seperti buku, lapang di layar TV) */
+body.lansia .nav, body.lansia .controls { position: static; }
+body.lansia .ayat { scroll-margin-top: 20px; }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 /* ===== Navbar ===== */
