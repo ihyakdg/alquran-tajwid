@@ -38,12 +38,14 @@ body {
   line-height: 1.7;
 }
 .arabic {
-  font-family: "Amiri Quran", "Scheherazade New", serif;
+  font-family: "Scheherazade New", "Amiri Quran", serif;
   direction: rtl;
   text-align: right;
   color: var(--arab-ink);
   line-height: 2.2;
 }
+/* Ornamen & nama surah tetap memakai kaligrafi Amiri yang indah */
+.surah-ornament, .surah-head > .arabic, .surah-ar { font-family: "Amiri Quran", serif; }
 /* Pewarnaan tajwid (sumber teks: quran.com API, tag <rule class="...">) */
 .arabic rule.ham_wasl            { color: #9aa0a6; }  /* Hamzah washal */
 .arabic rule.slnt                { color: #9aa0a6; }  /* Tanda tidak dibaca */
@@ -119,7 +121,13 @@ body {
   color: #fff; border-radius: 7px 7px 0 0; padding: 0 8px;
   box-shadow: 0 -1px 3px rgba(0,0,0,.2);
 }
-body.lansia .tajwid-print .taj-tag { font-size: 14px; padding: 1px 12px; }
+body.lansia .tajwid-print .taj-tag { font-size: 17px; padding: 2px 14px; }
+body.lansia .tajwid-print .mushaf-line { padding-top: 1.35em; }
+/* Kepala halaman mushaf dibingkai ala buku */
+.mushaf-top {
+  text-align: center; padding: 22px 16px 14px; margin-top: 24px;
+  border: 2px solid var(--gold); border-radius: 18px; background: var(--gold-soft);
+}
 /* Footer halaman mushaf ala cetakan */
 .mushaf-footer {
   text-align: center; margin: 18px auto 4px; max-width: 520px;
@@ -344,7 +352,12 @@ a.card:hover { transform: translateY(-3px); border-color: var(--brand); }
   display: inline-grid; place-items: center; min-width: 1.9em; height: 1.9em;
   border: 1.6px solid var(--gold); color: var(--gold); border-radius: 50%;
   font-size: .72em; line-height: 1; margin-inline-start: .4em; vertical-align: middle;
-  font-family: "Amiri Quran", serif; overflow: hidden;
+  font-family: "Scheherazade New", serif; overflow: hidden;
+}
+/* Medali ayat hijau cincin emas ala mushaf cetak (mode mushaf) */
+.mushaf-line .ayah-num {
+  border: 2px solid #0e7a55; background: #0e7a55; color: #fff;
+  box-shadow: inset 0 0 0 2.5px #fff, inset 0 0 0 4.5px #c9a227;
 }
 .latin { color: var(--brand); font-style: italic; font-size: .98rem; margin: 0 0 6px; }
 [data-theme="dark"] .latin { color: var(--brand); }
