@@ -108,12 +108,12 @@ body {
 .tajwid-print rule.ikhafa_shafawi, .tajwid-print rule.ikhfa_shafawi { color: #159947; }
 .tajwid-print rule.idgham_mutajanisayn, .tajwid-print rule.idgham_mutaqaribayn { color: #1565c0; }
 .tajwid-print rule.saktah { color: #8e24aa; }
-/* Label hukum mengambang di atas kata (seperti stiker di mushaf cetak) */
+/* Label hukum mengambang di atas kata (seperti stiker di mushaf cetak) — 1 label per kata */
 .tajwid-print .mushaf-line, .tajwid-print .ayat .arabic { padding-top: 1.15em; }
-.tajwid-print rule.tagged { position: relative; display: inline-block; }
+.tajwid-print .ww.tagged { position: relative; }
 .tajwid-print .taj-tag {
   position: absolute; bottom: 100%; right: 50%; transform: translateX(50%);
-  margin-bottom: 1px; z-index: 2;
+  margin-bottom: 3px; z-index: 2;
   font-family: "Plus Jakarta Sans", sans-serif; font-size: 11px; font-weight: 800;
   line-height: 1.5; white-space: nowrap; direction: ltr;
   color: #fff; border-radius: 7px 7px 0 0; padding: 0 8px;
@@ -341,10 +341,10 @@ a.card:hover { transform: translateY(-3px); border-color: var(--brand); }
 .mini-btn.playing { background: var(--brand); border-color: var(--brand); color: #fff; }
 .ayat .arabic { font-size: var(--arab-size, 2rem); margin: 6px 0 12px; }
 .ayah-num {
-  display: inline-grid; place-items: center; min-width: 2.1em; height: 2.1em;
+  display: inline-grid; place-items: center; min-width: 1.9em; height: 1.9em;
   border: 1.6px solid var(--gold); color: var(--gold); border-radius: 50%;
-  font-size: .85em; margin-inline-start: .4em; vertical-align: middle;
-  font-family: "Amiri Quran", serif;
+  font-size: .72em; line-height: 1; margin-inline-start: .4em; vertical-align: middle;
+  font-family: "Amiri Quran", serif; overflow: hidden;
 }
 .latin { color: var(--brand); font-style: italic; font-size: .98rem; margin: 0 0 6px; }
 [data-theme="dark"] .latin { color: var(--brand); }

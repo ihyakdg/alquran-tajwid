@@ -111,10 +111,10 @@
 
   function wordHtml(w, verseNumber) {
     if (w.char_type_name === "end") {
-      return `<span class="ayah-num" title="Ayat ${verseNumber}">۝${toAr(verseNumber)}</span>`;
+      return `<span class="ayah-num" title="Ayat ${verseNumber}">${toAr(verseNumber)}</span>`;
     }
     const t = w.text_uthmani_tajweed || w.text || "";
-    return showTajwid ? t : esc(stripTags(t));
+    return `<span class="ww">${showTajwid ? t : esc(stripTags(t))}</span>`;
   }
 
   function buildLines(verses) {

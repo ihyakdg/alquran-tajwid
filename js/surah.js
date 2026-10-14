@@ -216,10 +216,10 @@
         d2.verses.forEach((v) => {
           const words = (v.words || [])
             .filter((w) => w.char_type_name !== "end")
-            .map((w) => w.text_uthmani_tajweed || "")
+            .map((w) => `<span class="ww">${w.text_uthmani_tajweed || ""}</span>`)
             .join(" ");
           tajwidByAyat[v.verse_number] =
-            words + `<span class="ayah-num" title="Ayat ${v.verse_number}">۝${toAr(v.verse_number)}</span>`;
+            words + `<span class="ayah-num" title="Ayat ${v.verse_number}">${toAr(v.verse_number)}</span>`;
         });
       }
 

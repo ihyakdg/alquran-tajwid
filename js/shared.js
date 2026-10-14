@@ -42,22 +42,25 @@
     iqlab: ["Iqlab", "#d81b60"],
     qalaqah: ["Qalqalah", "#1a237e"],
   };
-  // Sisipkan <span class="taj-tag"> di atas tiap huruf berhukum (gabung yang berurutan)
+  // Sisipkan <span class="taj-tag"> di atas tiap KATA berhukum (maks. 1 label per kata)
   window.decoratePrintTags = function (scope) {
-    scope.querySelectorAll("rule[class]").forEach((r) => {
-      const key = (r.getAttribute("class") || "").split(" ")[0];
-      const tag = window.PRINT_TAG[key];
-      if (!tag) return;
-      if (r.parentElement && r.parentElement.closest("rule.tagged")) return; // sudah di dalam label
-      const prev = r.previousElementSibling;
-      if (prev && prev.tagName === "RULE" && prev.dataset.tag === tag[0]) return; // gabung
-      r.dataset.tag = tag[0];
-      r.classList.add("tagged");
-      const s = document.createElement("span");
-      s.className = "taj-tag";
-      s.style.background = tag[1];
-      s.textContent = tag[0];
-      r.prepend(s);
+    scope.querySelectorAll(".ww").forEach((w) => {
+      if (w.dataset.tag) return;
+      const rules = w.querySelectorAll("rule[class]");
+      for (const cand of rules) {
+        const key = (cand.getAttribute("class") || "").split(" ")[0];
+        const tag = window.PRINT_TAG[key];
+        if (!tag) continue;
+        if (cand.parentElement && cand.parentElement.closest("rule")) continue; // bersarang → ikut luar
+        w.dataset.tag = tag[0];
+        w.classList.add("tagged");
+        const s = document.createElement("span");
+        s.className = "taj-tag";
+        s.style.background = tag[1];
+        s.textContent = tag[0];
+        w.prepend(s);
+        break;
+      }
     });
   };
   document.addEventListener("DOMContentLoaded", () => {
