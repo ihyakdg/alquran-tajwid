@@ -11,8 +11,9 @@
   hal = Math.min(604, Math.max(1, hal));
   // Pertahankan ?lansia=1 di semua link pindah halaman (penting untuk STB/TV)
   const LANSIA_Q = new URLSearchParams(location.search).has("lansia") ? "&lansia=1" : "";
+  const ENTRY = location.pathname.endsWith("baca.html") ? "baca.html" : "mushaf.html";
   function pageUrl(p) {
-    return "mushaf.html?hal=" + Math.min(604, Math.max(1, p)) + LANSIA_Q;
+    return ENTRY + "?hal=" + Math.min(604, Math.max(1, p)) + LANSIA_Q;
   }
 
   const content = document.getElementById("content");
