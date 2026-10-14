@@ -161,8 +161,10 @@ body.lansia .mushaf-footer { font-size: 1.3rem; }
   border-radius: 6px;
   box-shadow: var(--shadow);
   padding: 34px 38px;
-  margin: 22px 0 10px;
+  margin: 22px auto 10px;
+  max-width: 780px; /* selebar halaman kitab: spasi kata rapat seperti cetakan */
 }
+body.lansia .mushaf-page { max-width: 880px; }
 .mushaf-line {
   font-size: var(--mushaf-size);
   text-align: justify;

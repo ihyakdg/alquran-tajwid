@@ -185,6 +185,27 @@
     });
   }
 
+  // Kecilkan font otomatis sampai semua baris muat 1 baris visual (tidak terlipat)
+  function fitMushafFont(maxSize) {
+    const page = document.getElementById("mushaf-page");
+    if (!page) return;
+    let size = maxSize;
+    page.style.setProperty("--mushaf-size", size + "px");
+    for (let i = 0; i < 40 && size > 20; i++) {
+      const lines = [...page.querySelectorAll(".mushaf-line")];
+      if (!lines.length) break;
+      const lh = parseFloat(getComputedStyle(lines[0]).lineHeight) || size * 1.7;
+      const wrapped = lines.some((el) => {
+        const pt = parseFloat(getComputedStyle(el).paddingTop) || 0;
+        return el.offsetHeight > lh * 1.4 + pt;
+      });
+      if (!wrapped) break;
+      size -= 1;
+      page.style.setProperty("--mushaf-size", size + "px");
+    }
+    return size;
+  }
+
   function applyTajwidMode(mode) {
     try { localStorage.setItem("qt-tajwid-mode", mode); } catch (_) {}
     showTajwid = mode !== "mati";
@@ -282,6 +303,11 @@
 
       attachTooltips();
       renderGuide();
+      const pageEl = document.getElementById("mushaf-page");
+      const baseSize = parseInt(getComputedStyle(pageEl).getPropertyValue("--mushaf-size")) || 30;
+      document.getElementById("font-size").value = Math.min(44, Math.max(20, baseSize));
+      try { await document.fonts.ready; } catch (_) {} // tunggu font Arab agar ukuran pas
+      fitMushafFont(baseSize);
 
       const savedMode = (() => { try { return localStorage.getItem("qt-tajwid-mode") || "cetakan"; } catch (_) { return "cetakan"; } })();
       document.getElementById("sel-tajwid").value = savedMode;
@@ -292,7 +318,7 @@
       });
       loadTerjemah(verses);
       document.getElementById("font-size").addEventListener("input", (e) => {
-        document.getElementById("mushaf-page").style.setProperty("--mushaf-size", e.target.value + "px");
+        fitMushafFont(+e.target.value);
       });
       document.getElementById("btn-goto").addEventListener("click", () => {
         const v = Math.min(604, Math.max(1, +document.getElementById("goto").value || 1));
