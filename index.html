@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Al-Qur'an Bertajwid — Baca, Dengar & Pelajari Tajwid</title>
+  <meta name="description" content="Website Al-Qur'an dengan panduan warna tajwid, terjemahan Indonesia, transliterasi latin, audio murottal, dan tafsir." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="index.html"><span class="logo-badge">🕌</span><span>Qur'an <em>Tajwid</em></span></a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Beranda</a>
+        <a href="tajwid.html">Belajar Tajwid</a>
+        <button class="icon-btn" onclick="toggleTheme()" title="Mode gelap/terang"><span data-theme-icon>🌙</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <header class="hero">
+      <h1>Baca Al-Qur'an dengan Tajwid yang Benar 🕌</h1>
+      <p>
+        Teks Arab berwarna sesuai hukum tajwid (idgham, ikhfa, iqlab, qalqalah, mad, ghunnah, dan lainnya),
+        lengkap dengan terjemahan Indonesia, transliterasi latin, audio murottal per ayat, dan tafsir.
+      </p>
+      <a class="btn" href="#daftar-surah">📖 Mulai Membaca</a>
+    </header>
+
+    <div id="last-read"></div>
+
+    <h2 class="section-title" id="daftar-surah">Daftar Surah</h2>
+    <p class="section-sub">114 surah • klik untuk membaca dengan panduan warna tajwid</p>
+
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="🔍 Cari surah… (cth: yasin, al-mulk, 36)" autocomplete="off" />
+      <select id="filter-turun" aria-label="Filter tempat turun">
+        <option value="">Semua (Makkiyah & Madaniyah)</option>
+        <option value="mekah">Makkiyah</option>
+        <option value="madinah">Madaniyah</option>
+      </select>
+    </div>
+
+    <div id="surah-list" class="grid surah-grid">
+      <div class="loading"><div class="spinner"></div>Memuat daftar surah…</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span data-year></span> Qur'an Tajwid • Dibuat untuk umat ❤️</span>
+      <span>Sumber teks & audio: <a href="https://equran.id" target="_blank" rel="noopener">equran.id</a> • Warna tajwid: <a href="https://quran.com" target="_blank" rel="noopener">quran.com API</a></span>
+    </div>
+  </footer>
+
+  <script src="js/shared.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

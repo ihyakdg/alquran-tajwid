@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baca Surah — Al-Qur'an Bertajwid</title>
+  <meta name="description" content="Baca ayat Al-Qur'an berwarna tajwid lengkap dengan latin, terjemahan, audio, dan tafsir." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="index.html"><span class="logo-badge">🕌</span><span>Qur'an <em>Tajwid</em></span></a>
+      <div class="nav-links">
+        <a href="index.html">Beranda</a>
+        <a href="tajwid.html">Belajar Tajwid</a>
+        <button class="icon-btn" onclick="toggleTheme()" title="Mode gelap/terang"><span data-theme-icon>🌙</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div id="content">
+      <div class="loading"><div class="spinner"></div>Memuat surah…</div>
+    </div>
+    <div class="surah-nav" id="surah-nav" style="display:none"></div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span data-year></span> Qur'an Tajwid • Dibuat untuk umat ❤️</span>
+      <span>Sumber teks & audio: <a href="https://equran.id" target="_blank" rel="noopener">equran.id</a> • Warna tajwid: <a href="https://quran.com" target="_blank" rel="noopener">quran.com API</a></span>
+    </div>
+  </footer>
+
+  <script src="js/shared.js"></script>
+  <script src="js/surah.js"></script>
+</body>
+</html>
